@@ -1,32 +1,23 @@
-require 'forwardable'
+require 'delegate'
 
-class Formattter
-  def format(text)
-    puts "Formatter Checking In #{text}"
+class SimpleDelegator < Delegator
+  def __getobj__
+    @delegate_sd_obj
   end
 
-  def holidays
-    puts "12 December 25 Christmas 31 New Year"
-  end
-
-end
-
-class Printer
-  extend Forwardable
-
-  def_delegators :@formatter, :format, :holidays
-
-  def initialize(formatter)
-    @formatter = formatter
-  end
-
-  def print(text)
-    formatted_text = format(text)
-    holidays
-    puts formatted_text
+  def __setobj__(obj)
+    @delegate_sd_obj
   end
 end
 
-Pr = Printer.new(Formattter.new)
+class Print < BasicObject
+  def take_name(name)
+    ::Kernel.puts "Hello World From Abishek"
+  end
+end
 
-Pr.print('Hello, From Formatter We are using forwardable')
+name = Print.new
+
+KERNEL_RESPOND_TO = ::Kernel.instance_method(:respond_to?)
+puts KERNEL_RESPOND_TO.bind_call(name, :take_name)
+

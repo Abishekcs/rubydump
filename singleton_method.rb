@@ -4,24 +4,19 @@ class Document
   end
 
   class << self
-    puts "My self"
+
+    INVALID_ATTRIBUTE_NAMES = [:Hello, :World]
+
+    def introduction(*names)
+      puts "Graph Theory With Applications To Engineering And Computer Science"
+      names_to_sym = names.map(&:to_sym) & INVALID_ATTRIBUTE_NAMES
+      puts "This are the names passed to introduction #{names_to_sym}"
+    end
   end
 end
 
 my_object = Document.new('War and Peace')
 
-def my_object.explain
-  puts "self is #{self}"
-  puts "and it's class is #{self.class}"
+class Current < Document
+  introduction 'Abishek', :Das, :CSE, :Hello, :World
 end
-
-my_object.explain
-
-my_object = Document
-
-def my_object.explain
-  puts "self is #{self}"
-  puts "and its class is #{self.class}"
-end
-
-my_object.explain
